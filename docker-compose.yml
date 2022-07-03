@@ -1,0 +1,8 @@
+version: "2.0"
+services:
+  jupyter:
+    build: docker/jupyter/.
+    ports:
+      - "8888:8888"
+    volumes:
+      - .:/usr/app
