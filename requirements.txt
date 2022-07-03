@@ -1,0 +1,6 @@
+jupyterlab
+pandas
+numpy
+black
+pycodestyle
+flake8
