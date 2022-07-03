@@ -4,3 +4,6 @@ numpy
 black
 pycodestyle
 flake8
+dask
+pyarrow
+tqdm
