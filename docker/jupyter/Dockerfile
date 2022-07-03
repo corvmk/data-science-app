@@ -1,4 +1,12 @@
+# Examples run as root, do not use for actual work!
 FROM python:3.10-bullseye
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+  gcc \
+  g++ \
+  python3-dev \
+  libpq-dev \
+  && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt .
 

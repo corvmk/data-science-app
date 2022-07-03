@@ -6,3 +6,8 @@ services:
       - "8888:8888"
     volumes:
       - .:/usr/app
+  postgres:
+    build: docker/postgres/.
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=postgres

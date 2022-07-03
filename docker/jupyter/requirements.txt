@@ -7,3 +7,5 @@ flake8
 dask
 pyarrow
 tqdm
+psycopg2
+sqlalchemy
