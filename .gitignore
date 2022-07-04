@@ -129,7 +129,8 @@ dmypy.json
 .pyre/
 
 data/*
-!.gitkeep
+!data/**/*/.gitkeep
+!gitkeep
 credentials.env
 
 .vscode
