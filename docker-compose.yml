@@ -11,3 +11,59 @@ services:
     restart: always
     environment:
       - POSTGRES_PASSWORD=postgres
+    volumes:
+      - ./data/pg_files:/var/lib/postgresql/data
+  redis:
+    image: redis
+    volumes:
+      - ./data/redis_files:/data
+  rq_worker_1:
+    build: docker/jupyter/.
+    depends_on:
+      - redis
+    volumes:
+      - .:/usr/app
+    entrypoint:
+      - "tini"
+      - "--"
+      - "rqworker"
+      - "-u"
+      - "redis://redis:6379"
+  rq_worker_2:
+    build: docker/jupyter/.
+    depends_on:
+      - redis
+    volumes:
+      - .:/usr/app
+    entrypoint:
+      - "tini"
+      - "--"
+      - "rqworker"
+      - "-u"
+      - "redis://redis:6379"
+  rq_worker_3:
+    build: docker/jupyter/.
+    depends_on:
+      - redis
+    volumes:
+      - .:/usr/app
+    entrypoint:
+      - "tini"
+      - "--"
+      - "rqworker"
+      - "-u"
+      - "redis://redis:6379"
+  rq_monitor:
+    depends_on:
+      - redis
+    build: docker/jupyter/.
+    ports:
+      - "5000:5000"
+    entrypoint:
+      - "tini"
+      - "--"
+      - "rq-dashboard"
+      - "-H"
+      - "redis"
+      - "-p"
+      - "5000"
