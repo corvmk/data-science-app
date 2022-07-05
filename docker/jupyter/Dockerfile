@@ -24,4 +24,4 @@ USER python
 WORKDIR /usr/app
 ENV PATH="/usr/app/src:$PATH"
 
-ENTRYPOINT [ "jupyter", "lab", "--allow-root", "--ServerApp.ip=0.0.0.0", "--ServerApp.port=8888"]
+ENTRYPOINT [ "jupyter", "lab", "--allow-root", "--ServerApp.ip=0.0.0.0", "--ServerApp.port=8888", "--NotebookApp.token=''"]
