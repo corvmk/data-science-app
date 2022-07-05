@@ -1,0 +1,17 @@
+jupyterlab
+pandas
+numpy
+pycodestyle
+flake8
+dask
+pyarrow
+tqdm
+psycopg2
+sqlalchemy
+pylint
+tqdm
+rq
+redis
+rq-dashboard
+click>=7,<8
+matplotlib
