@@ -1,9 +1,13 @@
-version: "2.0"
+version: "3.0"
 services:
   jupyter:
-    build: docker/jupyter/.
+    build:
+      context: docker/jupyter/.
+      args:
+        - USER_ID=${USER_ID}
+        - GROUP_ID=${GROUP_ID}
     ports:
-      - "8888:8888"
+      - "${JUPYTER_PORT}:8888"
     volumes:
       - .:/usr/app
   postgres:
@@ -12,12 +16,12 @@ services:
     environment:
       - POSTGRES_PASSWORD=postgres
     volumes:
-      - ./data/pg_files:/var/lib/postgresql/data
+      - pg_data:/var/lib/postgresql/data
   redis:
     image: redis
     volumes:
-      - ./data/redis_files:/data
-  rq_worker_1:
+      - redis_data:/data
+  rq_worker:
     build: docker/jupyter/.
     depends_on:
       - redis
@@ -29,30 +33,9 @@ services:
       - "rqworker"
       - "-u"
       - "redis://redis:6379"
-  rq_worker_2:
-    build: docker/jupyter/.
-    depends_on:
-      - redis
-    volumes:
-      - .:/usr/app
-    entrypoint:
-      - "tini"
-      - "--"
-      - "rqworker"
-      - "-u"
-      - "redis://redis:6379"
-  rq_worker_3:
-    build: docker/jupyter/.
-    depends_on:
-      - redis
-    volumes:
-      - .:/usr/app
-    entrypoint:
-      - "tini"
-      - "--"
-      - "rqworker"
-      - "-u"
-      - "redis://redis:6379"
+    deploy:
+      mode: replicated
+      replicas: 3
   rq_monitor:
     depends_on:
       - redis
@@ -67,3 +50,6 @@ services:
       - "redis"
       - "-p"
       - "5000"
+volumes:
+  pg_data:
+  redis_data:
